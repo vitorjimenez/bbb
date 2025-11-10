@@ -35,7 +35,7 @@ public class ParticipanteService {
     public ResponseEntity<String> registrarParticipante(Participante participante){
         logger.info(serviceLog + ": REGISTRAR PARTICIPANTE - " + participante);
         if (!isParticipanteValido(participante)){
-            logger.warn(serviceLog + ": PARTICIPANTE INVÁLIDO - " + participante.toString());
+            logger.warn(serviceLog + ": [WARN] PARTICIPANTE INVÁLIDO - " + participante.toString());
             response = "Todos os campos precisam estar preenchidos.";
             return ResponseEntity.status(500).body(response);
         }
@@ -52,13 +52,13 @@ public class ParticipanteService {
     }
 
     public ResponseEntity<List<Participante>> listarParticipante(){
-        logger.info(serviceLog + ": LISTAR PARTICIPANTE");
+        logger.info(serviceLog + ": [INFO] LISTAR PARTICIPANTE");
         List<Participante> listaParticipantes = new ArrayList<Participante>();
         try {
-            logger.info(serviceLog + ": CONSULTA REALIZADA COM SUCESSO.");
+            logger.info(serviceLog + ": [INFO] CONSULTA REALIZADA COM SUCESSO.");
             listaParticipantes = repository.findAll();
         } catch (ParticipanteException e) {
-            logger.warn(serviceLog + ": ERRO AO LISTAR PARTICIPANTE - " + e.getMessage() );
+            logger.warn(serviceLog + ": [WARN] ERRO AO LISTAR PARTICIPANTE - " + e.getMessage() );
             ResponseEntity.status(500).body("Houve um erro na consulta dos participantes.");
         }
         return ResponseEntity.status(200).body(listaParticipantes);

@@ -6,13 +6,13 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.5.7</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 	<groupId>com.bbb</groupId>
 	<artifactId>sboot-user</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>sboot-user</name>
-	<description>Demo project for Spring Boot</description>
+	<description></description>
 	<url/>
 	<licenses>
 		<license/>
@@ -27,7 +27,9 @@
 		<url/>
 	</scm>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>20</java.version>
+		<maven.compiler.source>20</maven.compiler.source>
+		<maven.compiler.target>20</maven.compiler.target>
 	</properties>
 	<dependencies>
 		<dependency>

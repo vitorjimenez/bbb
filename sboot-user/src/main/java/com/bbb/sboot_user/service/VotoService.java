@@ -34,7 +34,7 @@ public class VotoService {
     }
 
     public ResponseEntity<String> registrarVoto(String userId, String participanteId) {
-        logger.info(serviceLog + ": REGISTRAR VOTO.");
+        logger.info(serviceLog + ": [INFO] REGISTRAR VOTO.");
         try {
             Optional<Participante> participanteOpt = participanteRepository.findById(participanteId);
             if (participanteOpt.isEmpty()) {
@@ -52,17 +52,17 @@ public class VotoService {
             voto.setVoteTime(LocalDateTime.now());
 
             votoRepository.save(voto);
-            logger.info(serviceLog + ": VOTO REALIZADO COM SUCESSO + " + voto.getId());
+            logger.info(serviceLog + ": [INFO] VOTO REALIZADO COM SUCESSO + " + voto.getId());
             return ResponseEntity.ok("Voto registrado com sucesso!");
         } catch (Exception e) {
-            logger.warn(serviceLog + ": FALHA AO REGISTRAR VOTO.");
+            logger.warn(serviceLog + ": [WARN] FALHA AO REGISTRAR VOTO.");
             return ResponseEntity.status(500).body("Erro ao registrar voto: " + e.getMessage());
         }
     }
 
 
     public ResponseEntity<List<Map<String, Object>>> buscarVotosPorParticipante() {
-        logger.info(serviceLog + ": CONSULTA - BUSCAR VOTO POR PARTICIPANTE.");
+        logger.info(serviceLog + ": [INFO] CONSULTA - BUSCAR VOTO POR PARTICIPANTE.");
         try {
             List<Voto> votos = votoRepository.findAll();
 
@@ -79,30 +79,30 @@ public class VotoService {
                     })
                     .sorted((a, b) -> Long.compare((Long) b.get("totalVotos"), (Long) a.get("totalVotos")))
                     .collect(Collectors.toList());
-            logger.info(serviceLog + ": CONSULTA REALIZADA COM SUCESSO.");
+            logger.info(serviceLog + ": [INFO] CONSULTA REALIZADA COM SUCESSO.");
             return ResponseEntity.ok(resultado);
         } catch (Exception e) {
-            logger.warn(serviceLog + ": FALHA AO REALIZAR CONSULTA.");
+            logger.warn(serviceLog + ": [WARN] FALHA AO REALIZAR CONSULTA.");
             return ResponseEntity.status(500).body(Collections.emptyList());
         }
     }
 
     public ResponseEntity<Map<String, Object>> buscarTotalGeralVotos() {
-        logger.info(serviceLog + ": CONSULTA - BUSCAR TOTAL DE VOTOS.");
+        logger.info(serviceLog + ": [INFO] CONSULTA - BUSCAR TOTAL DE VOTOS.");
         try {
             long total = votoRepository.count();
             Map<String, Object> resultado = new HashMap<>();
             resultado.put("totalGeralVotos", total);
-            logger.info(serviceLog + ": CONSULTA REALIZADA COM SUCESSO");
+            logger.info(serviceLog + ": [INFO] CONSULTA REALIZADA COM SUCESSO");
             return ResponseEntity.ok(resultado);
         } catch (Exception e) {
-            logger.warn(serviceLog + ": * FALHA NA CONSULTA.");
+            logger.warn(serviceLog + ": [WARN] * FALHA NA CONSULTA.");
             return ResponseEntity.status(500).body(Collections.singletonMap("erro", e.getMessage()));
         }
     }
 
     public ResponseEntity<List<Map<String, Object>>> buscarTotalVotosPorHora() {
-        logger.info(serviceLog + ": CONSULTA - BUSCAR TOTAL POR HORA.");
+        logger.info(serviceLog + ": [INFO] CONSULTA - BUSCAR TOTAL POR HORA.");
         try {
             List<Voto> votos = votoRepository.findAll();
 
@@ -147,10 +147,10 @@ public class VotoService {
             }
 
             resultado.sort(Comparator.comparingInt(m -> (Integer) m.get("hora")));
-            logger.info(serviceLog + ": CONSULTA REALIZADA COM SUCESSO.");
+            logger.info(serviceLog + ": [INFO] CONSULTA REALIZADA COM SUCESSO.");
             return ResponseEntity.ok(resultado);
         } catch (Exception e) {
-            logger.warn(serviceLog + ": FALHA AO REALIZAR CONSULTA.");
+            logger.warn(serviceLog + ": [WARN] FALHA AO REALIZAR CONSULTA.");
             return ResponseEntity.status(500).body(Collections.emptyList());
         }
     }

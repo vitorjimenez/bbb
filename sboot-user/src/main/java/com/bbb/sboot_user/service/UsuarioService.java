@@ -34,28 +34,28 @@ public class UsuarioService {
     }
 
     public ResponseEntity<String> registro(Usuario usuario) {
-        logger.info(serviceLog + ": REGISTRAR USUÁRIO + " + usuario.toString());
+        logger.info(serviceLog + ": [INFO] REGISTRAR USUÁRIO + " + usuario.toString());
         if (!isUsuarioValido(usuario)) {
-            logger.warn(serviceLog + ": USUARIO INVÁLIDO");
+            logger.warn(serviceLog + ": [WARN] USUARIO INVÁLIDO");
             response = "Todos os campos precisam estar preenchidos.";
             return ResponseEntity.status(400).body(response);
         }
 
         try {
-            logger.info(serviceLog + ": SUCESSO AO REGISTRAR USUÁRIO -> " + usuario.toString());
+            logger.info(serviceLog + ": [INFO] SUCESSO AO REGISTRAR USUÁRIO -> " + usuario.toString());
             usuario.setUsuarioEnum("ATIVO");
             usuario.setCriadoEm(LocalDateTime.now());
             repository.save(usuario);
             response = "Sucesso ao registrar usuário.";
             return ResponseEntity.status(200).body(response);
         } catch (UsuarioException e) {
-            logger.warn(serviceLog + ": FALHA AO REGISTRAR USUÁRIO " + usuario.toString());
+            logger.warn(serviceLog + ": [WARN] FALHA AO REGISTRAR USUÁRIO " + usuario.toString());
             return ResponseEntity.status(500).body(e.getMessage());
         }
     }
 
     public ResponseEntity<String> login(String email, String senha) {
-        logger.info(serviceLog + ": LOGIN DE USUÁRIO");
+        logger.info(serviceLog + ": [INFO] LOGIN DE USUÁRIO");
         try {
             if (email == null || senha == null || email.isEmpty() || senha.isEmpty()) {
                 logger.warn(serviceLog + ": SENHA E LOGIN SÃO OBRIGATÓRIOS");
@@ -65,25 +65,25 @@ public class UsuarioService {
             Optional<Usuario> usuarioOpt = repository.findByEmail(email);
 
             if (usuarioOpt.isEmpty()) {
-                logger.warn(serviceLog + ":  USUÁRIO NÃO ENCONTRADO. ");
+                logger.warn(serviceLog + ": [WARN]  USUÁRIO NÃO ENCONTRADO. ");
                 return ResponseEntity.status(404).body("Usuário não encontrado.");
             }
 
             Usuario usuario = usuarioOpt.get();
 
             if (!usuario.getSenha().equals(senha)) {
-                logger.warn(serviceLog + ":  SENHA INCORRETA ");
+                logger.warn(serviceLog + ": [WARN]  SENHA INCORRETA ");
                 return ResponseEntity.status(401).body("Senha incorreta.");
             }
 
             if (!"ATIVO".equalsIgnoreCase(usuario.getUsuarioEnum())) {
                 return ResponseEntity.status(403).body("Conta inativa. Entre em contato com o suporte.");
             }
-            logger.info(serviceLog + ": LOGIN REALIZADO COM SUCESSO. ");
+            logger.info(serviceLog + ": [INFO] LOGIN REALIZADO COM SUCESSO. ");
             return ResponseEntity.status(200).body("Login realizado com sucesso");
 
         } catch (Exception e) {
-            logger.warn(serviceLog + ":  FALHA AO REALIZAR LOGIN ");
+            logger.warn(serviceLog + ": [WARN] FALHA AO REALIZAR LOGIN ");
             return ResponseEntity.status(500).body("Erro ao realizar login: " + e.getMessage());
         }
     }
