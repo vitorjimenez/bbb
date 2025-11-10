@@ -1,0 +1,50 @@
+name: Java CI - Spring Boot
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+    
+      - name: Cache de dependências Maven
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Compilar com Maven
+        working-directory: ./sboot-user
+        run: mvn -B clean compile
+
+      
+      - name: Executar testes
+        working-directory: ./sboot-user
+        run: mvn test
+
+      - name: Empacotar aplicação
+        working-directory: ./sboot-user
+        run: mvn package -DskipTests
+
+      - name: Upload do JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: sboot-user-jar
+          path: ./sboot-user/target/*.jar
