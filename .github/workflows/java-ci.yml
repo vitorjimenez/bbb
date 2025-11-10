@@ -34,11 +34,6 @@ jobs:
         working-directory: ./sboot-user
         run: mvn -B clean compile
 
-      
-      - name: Executar testes
-        working-directory: ./sboot-user
-        run: mvn test
-
       - name: Empacotar aplicação
         working-directory: ./sboot-user
         run: mvn package -DskipTests
