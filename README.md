@@ -6,6 +6,11 @@ Este projeto é composto por dois módulos principais:
 - **bbb-app** → Aplicação frontend feita em **Next.js**
 - **sboot-user** → API backend feita em **Spring Boot**, com banco de dados **MySQL** e suporte a **Docker**
 
+<img width="800" height="600" alt="image" src="https://github.com/user-attachments/assets/fdfd2ac4-555f-4ade-9aa4-57315c3af0b1" />
+<img width="800" height="600" alt="image" src="https://github.com/user-attachments/assets/37ab70a2-4549-4b6e-bb98-ab015341452a" />
+
+
+
 ---
 
 ## 📁 Estrutura de Pastas
